@@ -107,9 +107,10 @@ declare_bookmarksro("{{!b['name']}}","{{!b['uri']}}");
 <script type="text/javascript">
 // We will create here our new filter options
 // This should be outside the "pageslide" div. I don't know why
-new_filters = [];
-current_filters = [];
+  new_filters = [];
+  current_filters = [];
 </script>
+
 <div id="pageslide" style="display:none">
   <div class='row'>
     <span class='span8'><h2>Filtering options</h2></span>
@@ -221,22 +222,21 @@ $('.form_in_dropdown').on('click', function (e) {
 
 </script>
 
-<div class="span12">
+<!-- <div class="span12"> -->
 
-  <div class='row'>
-    <div class='span2'>
-      <a id='hide_toolbar_btn' style="display:inline;" href="javascript:hide_toolbar()" class="btn pull-left"><i class="icon-minus"></i> Hide toolbar</a>
-      <a id='show_toolbar_btn' style="display:inline;" href="javascript:show_toolbar()" class="btn pull-left"><i class="icon-plus"></i> Show toolbar</a>      
-    </div>
-    <div class='span2'>
-      <a id='select_all_btn' style="display:inline;" href="javascript:select_all_problems()" class="btn pull-left"><i class="icon-check"></i> Select all</a>
-      <a id='unselect_all_btn' style="display:inline;" href="javascript:unselect_all_problems()" class="btn pull-left"><i class="icon-minus"></i> Unselect all</a>
-    </div>
-    <div class='span7'>
-      &nbsp;
-      %include pagination_element navi=navi, app=app, page=page, div_class="center no-margin"
-    </div>
+<div class="row-fluid">
+  <div class="span2">
+    <a id='hide_toolbar_btn' style="display:inline;" href="javascript:hide_toolbar()" class="btn pull-left"><i class="icon-minus"></i> Hide toolbar</a>
+    <a id='show_toolbar_btn' style="display:inline;" href="javascript:show_toolbar()" class="btn pull-left"><i class="icon-plus"></i> Show toolbar</a>      
   </div>
+  <div class="span2">
+    <a id='select_all_btn' style="display:inline;" href="javascript:select_all_problems()" class="btn pull-left"><i class="icon-check"></i> Select all</a>
+    <a id='unselect_all_btn' style="display:inline;" href="javascript:unselect_all_problems()" class="btn pull-left"><i class="icon-minus"></i> Unselect all</a>
+  </div>
+  <div class="span8">
+    %include pagination_element navi=navi, app=app, page=page, div_class="pagination-right no-margin"
+  </div>
+</div>
 
   <div class='row-fluid'>
     <div id='toolbar' class='span2'>
@@ -345,7 +345,7 @@ $('.form_in_dropdown').on('click', function (e) {
     </div>
 
     <!-- Start of the Right panel, with all problems -->
-    <div class="span10 no-leftmargin">
+    <div class="span10">
       <div id="accordion" class="span12">
 
         %# " We will print Business impact level of course"
@@ -364,7 +364,7 @@ $('.form_in_dropdown').on('click', function (e) {
           %for pb in pbs:
 
           %if pb.business_impact != imp_level:
-          <h2> Business impact: {{!helper.get_business_impact_text(pb)}} </h2>
+          <h3> Business impact: {{!helper.get_business_impact_text(pb)}} </h3>
           %# "We reset the last_hname so we won't overlap this feature across tables"
           %last_hname = ''
           %last_output = ''
@@ -387,14 +387,14 @@ $('.form_in_dropdown').on('click', function (e) {
               %end
               <div class="tableCriticity pull-left">
 
-                <div class='tick pull-left' style="cursor:pointer;" onmouseover="hovering_selection('{{helper.get_html_id(pb)}}')" onclick="add_remove_elements('{{helper.get_html_id(pb)}}')"><img id='selector-{{helper.get_html_id(pb)}}' class='img_tick' src='/static/images/tick.png' /></div>
+                <div class='tick pull-left' style="cursor:pointer;" onmouseover="hovering_selection('{{helper.get_html_id(pb)}}')" onclick="add_remove_elements('{{helper.get_html_id(pb)}}')"><img id='selector-{{helper.get_html_id(pb)}}' class='img_tick' src='/static/images/tick.png' alt=""/></div>
                 <div class='img_status pull-left'>
                   <div class="aroundpulse">
                     %# " We put a 'pulse' around the elements if it's an important one "
                     %if pb.business_impact > 2 and pb.state_id in [1, 2, 3]:
                     <span class="pulse"></span>
                     %end
-                    <img src="{{helper.get_icon_state(pb)}}" /></div>
+                    <img src="{{helper.get_icon_state(pb)}}" alt="" /></div>
                   </div>
                   %if pb.host_name == last_hname:
                   <div class="hostname cut_long pull-left"> &nbsp;  </div>
@@ -494,7 +494,7 @@ $('.form_in_dropdown').on('click', function (e) {
                 <p><img style="width: 16px; height: 16px;" src="{{helper.get_icon_state(i)}}" />
                   <span class="alert-small alert-{{i.state.lower()}}">{{i.state}}</span> for {{!helper.get_link(i)}}
                   %for j in range(0, i.business_impact-2):
-                  <img src='/static/images/star.png' alt="star">
+                  <img src='/static/images/star.png' alt="">
                   %end
                 </p>
               </div>
