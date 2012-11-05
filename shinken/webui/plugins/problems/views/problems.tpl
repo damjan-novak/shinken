@@ -229,11 +229,21 @@ $('.form_in_dropdown').on('click', function (e) {
     <a id='hide_toolbar_btn' style="display:inline;" href="javascript:hide_toolbar()" class="btn pull-left"><i class="icon-minus"></i> Hide toolbar</a>
     <a id='show_toolbar_btn' style="display:inline;" href="javascript:show_toolbar()" class="btn pull-left"><i class="icon-plus"></i> Show toolbar</a>      
   </div>
-  <div class="span2">
+  <div class="span6">
     <a id='select_all_btn' style="display:inline;" href="javascript:select_all_problems()" class="btn pull-left"><i class="icon-check"></i> Select all</a>
     <a id='unselect_all_btn' style="display:inline;" href="javascript:unselect_all_problems()" class="btn pull-left"><i class="icon-minus"></i> Unselect all</a>
   </div>
-  <div class="span8">
+  
+  <div class="btn-group span1">
+    <button class="btn"><i class="icon-cog"></i></button>
+    <button class="btn dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+    <!-- dropdown menu links -->
+    </ul>
+  </div>
+  <div class="span3">
     %include pagination_element navi=navi, app=app, page=page, div_class="pagination-right no-margin"
   </div>
 </div>
@@ -506,7 +516,7 @@ $('.form_in_dropdown').on('click', function (e) {
           %end
         </div>
 
-        %include pagination_element navi=navi, app=app, page=page, div_class="center"
+        %include pagination_element navi=navi, app=app, page=page, div_class="pagination-right"
 
       </div>
     </div>
