@@ -27,3 +27,8 @@
 /*  Basics
     ------------------------------------------------------- */
 
+.modal-special {
+    width: 75% !important;
+    left: 35%;
+    margin: -300px 0 0 -280px;
+}

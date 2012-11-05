@@ -5,7 +5,7 @@
 
 %top_right_banner_state = datamgr.get_overall_state()
 
-%rebase layout globals(), title='All problems', top_right_banner_state=top_right_banner_state, js=['problems/js/img_hovering.js', 'problems/js/accordion.js', 'problems/js/sliding_navigation.js', 'problems/js/filters.js', 'problems/js/bookmarks.js'], css=['problems/css/accordion.css', 'problems/css/pagenavi.css', 'problems/css/perfometer.css', 'problems/css/img_hovering.css', 'problems/css/sliding_navigation.css', 'problems/css/filters.css'], refresh=True, menu_part='/'+page, user=user
+%rebase layout globals(), title='All problems', top_right_banner_state=top_right_banner_state, js=['problems/js/img_hovering.js', 'problems/js/accordion.js', 'problems/js/sliding_navigation.js', 'problems/js/filters.js', 'problems/js/bookmarks.js'], css=['problems/css/accordion.css', 'problems/css/pagenavi.css', 'problems/css/perfometer.css', 'problems/css/img_hovering.css', 'problems/css/sliding_navigation.css', 'problems/css/filters.css' , 'problems/css/problem.css'], refresh=True, menu_part='/'+page, user=user
 
 %# Look for actions if we must show them or not
 %global_disabled = ''
@@ -240,7 +240,7 @@ $('.form_in_dropdown').on('click', function (e) {
     <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-    <!-- dropdown menu links -->
+      <li><a href="#FilterModal" role="button" data-toggle="modal">Filter</a></li>
     </ul>
   </div>
   <div class="span3">
@@ -524,3 +524,90 @@ $('.form_in_dropdown').on('click', function (e) {
     %# """ This div is an image container and will move hover the perfometer with mouse hovering """
     <div id="img_hover"></div>
 
+<!-- Filter Modal -->
+<div id="FilterModal" class="modal modal-special hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Filtering options</h3>
+  </div>
+
+  <div class="modal-body">
+    <h4>Names</h4>
+    <form name='namefilter' class='form-horizontal'>
+      <input name='name'></input>
+      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_name_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+    </form>
+
+    <h4>Hostgroup</h4>
+    <form name='hgfilter' class='form-horizontal'>
+      <select name='hg'>
+        %for hg in datamgr.get_hostgroups_sorted():
+        <option value='{{hg.get_name()}}'> {{hg.get_name()}} ({{len(hg.members)}})</option>
+        %end
+      </select>
+      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_hg_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+    </form>
+
+    <h4>Tag</h4>
+    <form name='htagfilter' class='form-horizontal'>
+      <select name='htag'>
+        %for (t, n) in datamgr.get_host_tags_sorted():
+        <option value='{{t}}'> {{t}} ({{n}})</option>
+        %end
+      </select>
+      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_htag_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+    </form>
+
+    <h4>Realms</h4>
+    <form name='realmfilter' class='form-horizontal'>
+      <select name='realm'>
+        %for r in datamgr.get_realms():
+        <option value='{{r}}'> {{r}}</option>
+        %end
+      </select>
+      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_realm_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+    </form>
+
+    <h4>States</h4>
+    <form name='ack_filter' class='form-horizontal'>
+
+      <span class="help-inline">Ack </span>
+      %if page=='problems':
+      <input type='checkbox' name='show_ack'></input>
+      %else:
+      <input type='checkbox' name='show_ack' checked></input>
+      %end
+
+      <span class="help-inline">Both ack states</span>
+      <input type='checkbox' name='show_both_ack'></input>
+      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_ack_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+    </form>
+
+    <form name='downtime_filter' class='form-horizontal'>
+      <span class="help-inline">Downtime</span>
+      %if page=='problems':
+      <input type='checkbox' name='show_downtime'></input>
+      %else:
+      <input type='checkbox' name='show_downtime' checked></input>
+      %end
+      <span class="help-inline">Both downtime states</span>
+      <input type='checkbox' name='show_both_downtime'></input>
+      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_downtime_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+    </form>
+
+    <form name='criticity_filter' class='form-horizontal'>
+      <span class="help-inline">Critical Only</span>
+      %if page=='problems':
+      <input type='checkbox' name='show_critical'></input>
+      %else:
+      <input type='checkbox' name='show_critical' checked></input>
+      %end
+      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_criticity_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" href="javascript:clean_new_search();"><i class="icon-remove"></i> Remove all Filters</button>
+    <button class="btn btn-success" href="javascript:launch_new_search('/{{page}}');"><i class="icon-play"></i> Launch</button>
+  </div>
+</div>
