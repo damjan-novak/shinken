@@ -532,82 +532,109 @@ $('.form_in_dropdown').on('click', function (e) {
   </div>
 
   <div class="modal-body">
-    <h4>Names</h4>
-    <form name='namefilter' class='form-horizontal'>
-      <input name='name'></input>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_name_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
+    <div class="control-group">
+      <form class="form-horizontal" name='namefilter'>
+        <label class="control-label">Name: </label>
+        <div class="controls"> <input name='name'></input> </div>
+        <p class='pull-right'><a class="btn btn-success pull-right" href="javascript:save_name_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+      </form>
+    </div>
 
-    <h4>Hostgroup</h4>
-    <form name='hgfilter' class='form-horizontal'>
-      <select name='hg'>
-        %for hg in datamgr.get_hostgroups_sorted():
-        <option value='{{hg.get_name()}}'> {{hg.get_name()}} ({{len(hg.members)}})</option>
+    <div class="control-group">
+      <form name='hgfilter' class="form-horizontal">
+        <label class="control-label">Hostgroup: </label>
+        <div class="controls"> 
+          <select name='hg'>
+            %for hg in datamgr.get_hostgroups_sorted():
+            <option value='{{hg.get_name()}}'> {{hg.get_name()}} ({{len(hg.members)}})</option>
+            %end
+          </select>
+        </div>
+        <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_hg_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+      </form>
+    </div>
+
+    <div class="control-group">
+      <form name='htagfilter' class="form-horizontal">
+        <label class="control-label">Tag: </label>
+        <div class="controls">
+          <select name='htag'>
+            %for (t, n) in datamgr.get_host_tags_sorted():
+            <option value='{{t}}'> {{t}} ({{n}})</option>
+            %end
+          </select>
+        </div>
+        <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_htag_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+      </form>
+    </div>
+
+    <div class="control-group">
+      <form name='realmfilter' class="form-horizontal">
+        <label class="control-label">Realms: </label>
+        <div class="controls">
+          <select name='realm'>
+            %for r in datamgr.get_realms():
+            <option value='{{r}}'> {{r}}</option>
+            %end
+          </select>
+        </div>
+        <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_realm_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
+      </form>
+    </div>
+
+    <div>
+
+    </div class="control-group">
+    <form name='ack_filter' class="form-horizontal">
+      <label class="control-label">States: </label>
+      <div class="controls">
+        <span class="help-inline">Ack </span>
+        %if page=='problems':
+        <input type='checkbox' name='show_ack'></input>
+        %else:
+        <input type='checkbox' name='show_ack' checked></input>
         %end
-      </select>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_hg_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
 
-    <h4>Tag</h4>
-    <form name='htagfilter' class='form-horizontal'>
-      <select name='htag'>
-        %for (t, n) in datamgr.get_host_tags_sorted():
-        <option value='{{t}}'> {{t}} ({{n}})</option>
-        %end
-      </select>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_htag_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <h4>Realms</h4>
-    <form name='realmfilter' class='form-horizontal'>
-      <select name='realm'>
-        %for r in datamgr.get_realms():
-        <option value='{{r}}'> {{r}}</option>
-        %end
-      </select>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_realm_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <h4>States</h4>
-    <form name='ack_filter' class='form-horizontal'>
-
-      <span class="help-inline">Ack </span>
-      %if page=='problems':
-      <input type='checkbox' name='show_ack'></input>
-      %else:
-      <input type='checkbox' name='show_ack' checked></input>
-      %end
-
-      <span class="help-inline">Both ack states</span>
-      <input type='checkbox' name='show_both_ack'></input>
+        <span class="help-inline">Both ack states</span>
+        <input type='checkbox' name='show_both_ack'></input>
+      </div>
       <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_ack_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
     </form>
 
-    <form name='downtime_filter' class='form-horizontal'>
-      <span class="help-inline">Downtime</span>
-      %if page=='problems':
-      <input type='checkbox' name='show_downtime'></input>
-      %else:
-      <input type='checkbox' name='show_downtime' checked></input>
-      %end
-      <span class="help-inline">Both downtime states</span>
-      <input type='checkbox' name='show_both_downtime'></input>
+    <form name='downtime_filter' class="form-horizontal">
+      <div class="controls">
+        <span class="help-inline">Downtime</span>
+        %if page=='problems':
+        <input type='checkbox' name='show_downtime'></input>
+        %else:
+        <input type='checkbox' name='show_downtime' checked></input>
+        %end
+        <span class="help-inline">Both downtime states</span>
+        <input type='checkbox' name='show_both_downtime'></input>
+      </div>
       <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_downtime_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
     </form>
 
-    <form name='criticity_filter' class='form-horizontal'>
-      <span class="help-inline">Critical Only</span>
-      %if page=='problems':
-      <input type='checkbox' name='show_critical'></input>
-      %else:
-      <input type='checkbox' name='show_critical' checked></input>
-      %end
+    <form name='criticity_filter' class="form-horizontal">
+      <div class="controls">
+        <span class="help-inline">Critical Only</span>
+        %if page=='problems':
+        <input type='checkbox' name='show_critical'></input>
+        %else:
+        <input type='checkbox' name='show_critical' checked></input>
+        %end
+      </div>
       <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_criticity_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
     </form>
 
+    <div id='new_search'> </div>
+
+    <!-- We put a final touch at the filters and buttons of this panel -->
+    <script>refresh_new_search_div();</script>
   </div>
+  
   <div class="modal-footer">
     <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" href="javascript:clean_new_search();"><i class="icon-remove"></i> Remove all Filters</button>
-    <button class="btn btn-success" href="javascript:launch_new_search('/{{page}}');"><i class="icon-play"></i> Launch</button>
+    <button class="btn btn-success" href="javascript:launch_new_search('/{{page}}');" ><i class="icon-play"></i> Launch</button>
   </div>
 </div>
