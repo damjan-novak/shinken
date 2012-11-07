@@ -111,101 +111,6 @@ declare_bookmarksro("{{!b['name']}}","{{!b['uri']}}");
   current_filters = [];
 </script>
 
-<div id="pageslide" style="display:none">
-  <div class='row'>
-    <span class='span8'><h2>Filtering options</h2></span>
-    <span class='span3 pull-right'><a class='btn btn-danger' href="javascript:$.pageslide.close()"><i class="icon-remove"></i> Close</a></span>
-  </div>
-  <div class='in_panel_filter'>
-    <h3>Names</h3>
-    <form name='namefilter' class='form-horizontal'>
-      <input name='name'></input>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_name_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <h3>Hostgroup</h3>
-    <form name='hgfilter' class='form-horizontal'>
-      <select name='hg'>
-        %for hg in datamgr.get_hostgroups_sorted():
-        <option value='{{hg.get_name()}}'> {{hg.get_name()}} ({{len(hg.members)}})</option>
-        %end
-      </select>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_hg_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <h3>Tag</h3>
-    <form name='htagfilter' class='form-horizontal'>
-      <select name='htag'>
-        %for (t, n) in datamgr.get_host_tags_sorted():
-        <option value='{{t}}'> {{t}} ({{n}})</option>
-        %end
-      </select>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_htag_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <h3>Realms</h3>
-    <form name='realmfilter' class='form-horizontal'>
-      <select name='realm'>
-        %for r in datamgr.get_realms():
-        <option value='{{r}}'> {{r}}</option>
-        %end
-      </select>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_realm_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <h3>States</h3>
-    <form name='ack_filter' class='form-horizontal'>
-
-      <span class="help-inline">Ack </span>
-      %if page=='problems':
-      <input type='checkbox' name='show_ack'></input>
-      %else:
-      <input type='checkbox' name='show_ack' checked></input>
-      %end
-
-      <span class="help-inline">Both ack states</span>
-      <input type='checkbox' name='show_both_ack'></input>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_ack_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <form name='downtime_filter' class='form-horizontal'>
-      <span class="help-inline">Downtime</span>
-      %if page=='problems':
-      <input type='checkbox' name='show_downtime'></input>
-      %else:
-      <input type='checkbox' name='show_downtime' checked></input>
-      %end
-      <span class="help-inline">Both downtime states</span>
-      <input type='checkbox' name='show_both_downtime'></input>
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_downtime_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <form name='criticity_filter' class='form-horizontal'>
-      <span class="help-inline">Critical Only</span>
-      %if page=='problems':
-      <input type='checkbox' name='show_critical'></input>
-      %else:
-      <input type='checkbox' name='show_critical' checked></input>
-      %end
-      <p class='pull-right'><a class='btn btn-success pull-right' href="javascript:save_state_criticity_filter();"> <i class="icon-chevron-right"></i> Add</a></p>
-    </form>
-
-    <span><p>&nbsp;</p></span>
-
-
-  </div>
-  <div class='row'>
-    <span class='pull-left'><a id='remove_all_filters' class='btn btn-inverse' href="javascript:clean_new_search();"> <i class="icon-remove"></i> Remove all filters</a></span>
-    <span class='pull-right'><a id='launch_the_search' class='btn btn-warning' href="javascript:launch_new_search('/{{page}}');"> <i class="icon-play"></i> Launch the search!</a></span>
-    <span><p>&nbsp;</p></span>
-  </div>
-  <div id='new_search'>
-  </div>
-
-  <!-- We put a final touch at the filters and buttons of this panel -->
-  <script>refresh_new_search_div();</script>
-
-</div>
 
 <script >$(function(){
   $(".slidelink").pageslide({ direction: "right", modal: true});
@@ -634,7 +539,7 @@ $('.form_in_dropdown').on('click', function (e) {
   </div>
   
   <div class="modal-footer">
-    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" href="javascript:clean_new_search();"><i class="icon-remove"></i> Remove all Filters</button>
-    <button class="btn btn-success" href="javascript:launch_new_search('/{{page}}');" ><i class="icon-play"></i> Launch</button>
+        <a id='remove_all_filters' class='btn btn-danger' href="javascript:clean_new_search();"> <i class="icon-remove"></i> Remove all filters</a>
+        <a id='launch_the_search' class='btn btn-success' href="javascript:launch_new_search('/{{page}}');"> <i class="icon-play"></i> Launch!</a>
   </div>
 </div>
