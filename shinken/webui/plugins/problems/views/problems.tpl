@@ -140,12 +140,13 @@ $('.form_in_dropdown').on('click', function (e) {
   </div>
   
   <div class="btn-group span1">
-    <button class="btn"><i class="icon-cog"></i></button>
+    <button class="btn"><i class="icon-cog"></i> Actions</button>
     <button class="btn dropdown-toggle" data-toggle="dropdown">
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
       <li><a href="#FilterModal" role="button" data-toggle="modal">Filter</a></li>
+       <li><a href="#myModal" role="button" data-toggle="modal">View Filter</a></li>
     </ul>
   </div>
   <div class="span3">
@@ -154,110 +155,7 @@ $('.form_in_dropdown').on('click', function (e) {
 </div>
 
 <div class='row-fluid'>
-  <div id='toolbar' class='span2'>
-    <a href="#pageslide" class="slidelink btn btn-success"><i class="icon-plus"></i> Add filters</a>
-    <p></p>
-    %got_filters = sum([len(v) for (k,v) in filters.iteritems()]) > 0
-    %if got_filters:
-    <div class='row'>
-      <span class='span8'><h3>Active filters</h3></span>
-      <span class='span1 pull-right'><a href='javascript:remove_all_current_filter("/{{page}}");' class="close">&times;</a></span>
-    </div>
-    %end
-    <ul class="unstyled">
 
-      %for n in filters['hst_srv']:
-      <li>
-        <span class="filter_color hst_srv_filter_color">&nbsp;</span>
-        <span class="hst_srv_filter_name">Name: {{n}}</span>
-        <span class="filter_delete"><a href='javascript:remove_current_filter("hst_srv", "{{n}}", "/{{page}}");' class="close">&times;</a></span>
-      </li>
-      <script>add_active_hst_srv_filter('{{n}}');</script>
-      %end
-
-      %for hg in filters['hg']:
-      <li>
-        <span class="filter_color hg_filter_color">&nbsp;</span>
-        <span class="hg_filter_name">Group: {{hg}}</span>
-        <span class="filter_delete"><a href='javascript:remove_current_filter("hg", "{{hg}}", "/{{page}}");' class="close">&times;</a></span>
-      </li>
-      <script>add_active_hg_filter('{{hg}}');</script>
-      %end
-
-      %for r in filters['realm']:
-      <li>
-        <span class="filter_color realm_filter_color">&nbsp;</span>
-        <span class="realm_filter_name">Realm: {{r}}</span>
-        <span class="filter_delete"><a href='javascript:remove_current_filter("realm", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
-      </li>
-      <script>add_active_realm_filter('{{r}}');</script>
-      %end
-
-      %for r in filters['htag']:
-      <li>
-        <span class="filter_color htag_filter_color">&nbsp;</span>
-        <span class="htag_filter_name">Tag: {{r}}</span>
-        <span class="filter_delete"><a href='javascript:remove_current_filter("htag", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
-      </li>
-      <script>add_active_htag_filter('{{r}}');</script>
-      %end
-
-
-      %for r in filters['ack']:
-      <li>
-        <span class="filter_color ack_filter_color">&nbsp;</span>
-        <span class="ack_filter_name">Ack: {{r}}</span>
-        <span class="filter_delete"><a href='javascript:remove_current_filter("ack", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
-      </li>
-      <script>add_active_state_ack_filter('{{r}}');</script>
-      %end
-
-      %for r in filters['downtime']:
-      <li>
-        <span class="filter_color downtime_filter_color">&nbsp;</span>
-        <span class="downtime_filter_name">Downtime: {{r}}</span>
-        <span class="filter_delete"><a href='javascript:remove_current_filter("downtime", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
-      </li>
-      <script>add_active_state_downtime_filter('{{r}}');</script>
-      %end
-
-      %for r in filters['crit']:
-      <li>
-        <span class="filter_color criticity_filter_color">&nbsp;</span>
-        <span class="criticity_filter_name">Criticity: {{r}}</span>
-        <span class="filter_delete"><a href='javascript:remove_current_filter("crit", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
-      </li>
-      <script>add_active_state_criticity_filter('{{r}}');</script>
-      %end
-
-    </ul>
-    <br/>
-    %if got_filters:
-    <div class="btn-group">
-      <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"> <i class="icon-tags"></i> Save this search</button>
-      <ul class="dropdown-menu">
-        <li>
-          <form class='form_in_dropdown' id='bookmark_save'>
-            <label>Bookmark</label>
-            <input name='bookmark_name'></input>
-          </form>
-          <a class="btn btn-success" href='javascript:add_new_bookmark("/{{page}}");'> <i class="icon-ok"></i> Save!</a>
-        </li>
-      </ul>
-    </div>
-
-    %end
-
-    <p>&nbsp;</p>
-    <div id='bookmarks'></div>
-    <div id='bookmarksro'></div>
-    <script>
-    $(function(){
-      refresh_bookmarks();
-      refresh_bookmarksro();
-    });</script>
-
-  </div>
 
   <!-- Start of the Right panel, with all problems -->
   <div class="span10">
@@ -429,7 +327,122 @@ $('.form_in_dropdown').on('click', function (e) {
   %# """ This div is an image container and will move hover the perfometer with mouse hovering """
   <div id="img_hover"></div>
 
-  <!-- Filter Modal -->
+  <!-- Filter view Modal -->
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Modal header</h3>
+    </div>
+    <div class="modal-body">
+    
+    %got_filters = sum([len(v) for (k,v) in filters.iteritems()]) > 0
+    %if got_filters:
+    <div class='row'>
+      <span class='span8'><h3>Active filters</h3></span>
+      <span class='span1 pull-right'><a href='javascript:remove_all_current_filter("/{{page}}");' class="close">&times;</a></span>
+    </div>
+    %end
+    <ul class="unstyled">
+
+      %for n in filters['hst_srv']:
+      <li>
+        <span class="filter_color hst_srv_filter_color">&nbsp;</span>
+        <span class="hst_srv_filter_name">Name: {{n}}</span>
+        <span class="filter_delete"><a href='javascript:remove_current_filter("hst_srv", "{{n}}", "/{{page}}");' class="close">&times;</a></span>
+      </li>
+      <script>add_active_hst_srv_filter('{{n}}');</script>
+      %end
+
+      %for hg in filters['hg']:
+      <li>
+        <span class="filter_color hg_filter_color">&nbsp;</span>
+        <span class="hg_filter_name">Group: {{hg}}</span>
+        <span class="filter_delete"><a href='javascript:remove_current_filter("hg", "{{hg}}", "/{{page}}");' class="close">&times;</a></span>
+      </li>
+      <script>add_active_hg_filter('{{hg}}');</script>
+      %end
+
+      %for r in filters['realm']:
+      <li>
+        <span class="filter_color realm_filter_color">&nbsp;</span>
+        <span class="realm_filter_name">Realm: {{r}}</span>
+        <span class="filter_delete"><a href='javascript:remove_current_filter("realm", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
+      </li>
+      <script>add_active_realm_filter('{{r}}');</script>
+      %end
+
+      %for r in filters['htag']:
+      <li>
+        <span class="filter_color htag_filter_color">&nbsp;</span>
+        <span class="htag_filter_name">Tag: {{r}}</span>
+        <span class="filter_delete"><a href='javascript:remove_current_filter("htag", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
+      </li>
+      <script>add_active_htag_filter('{{r}}');</script>
+      %end
+
+
+      %for r in filters['ack']:
+      <li>
+        <span class="filter_color ack_filter_color">&nbsp;</span>
+        <span class="ack_filter_name">Ack: {{r}}</span>
+        <span class="filter_delete"><a href='javascript:remove_current_filter("ack", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
+      </li>
+      <script>add_active_state_ack_filter('{{r}}');</script>
+      %end
+
+      %for r in filters['downtime']:
+      <li>
+        <span class="filter_color downtime_filter_color">&nbsp;</span>
+        <span class="downtime_filter_name">Downtime: {{r}}</span>
+        <span class="filter_delete"><a href='javascript:remove_current_filter("downtime", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
+      </li>
+      <script>add_active_state_downtime_filter('{{r}}');</script>
+      %end
+
+      %for r in filters['crit']:
+      <li>
+        <span class="filter_color criticity_filter_color">&nbsp;</span>
+        <span class="criticity_filter_name">Criticity: {{r}}</span>
+        <span class="filter_delete"><a href='javascript:remove_current_filter("crit", "{{r}}", "/{{page}}");' class="close">&times;</a></span>
+      </li>
+      <script>add_active_state_criticity_filter('{{r}}');</script>
+      %end
+
+    </ul>
+    <br/>
+    %if got_filters:
+    <div class="btn-group">
+      <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"> <i class="icon-tags"></i> Save this search</button>
+      <ul class="dropdown-menu">
+        <li>
+          <form class='form_in_dropdown' id='bookmark_save'>
+            <label>Bookmark</label>
+            <input name='bookmark_name'></input>
+          </form>
+          <a class="btn btn-success" href='javascript:add_new_bookmark("/{{page}}");'> <i class="icon-ok"></i> Save!</a>
+        </li>
+      </ul>
+    </div>
+
+    %end
+
+    <p>&nbsp;</p>
+    <div id='bookmarks'></div>
+    <div id='bookmarksro'></div>
+    <script>
+    $(function(){
+      refresh_bookmarks();
+      refresh_bookmarksro();
+    });</script>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-primary">Save changes</button>
+    </div>
+  </div>
+
+  <!-- Set Filter Modal -->
   <div id="FilterModal" class="modal modal-special hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -537,7 +550,7 @@ $('.form_in_dropdown').on('click', function (e) {
       <!-- We put a final touch at the filters and buttons of this panel -->
       <script>refresh_new_search_div();</script>
     </div>
-    
+
     <div class="modal-footer">
       <a id='remove_all_filters' class='btn btn-danger' href="javascript:clean_new_search();"> <i class="icon-remove"></i> Remove all filters</a>
       <a id='launch_the_search' class='btn btn-success' href="javascript:launch_new_search('/{{page}}');"> <i class="icon-play"></i> Launch!</a>
