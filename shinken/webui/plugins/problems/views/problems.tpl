@@ -130,10 +130,7 @@ $('.form_in_dropdown').on('click', function (e) {
 <!-- <div class="span12"> -->
 
 <div class="row-fluid">
-  <div class="span2">
-    <a id='hide_toolbar_btn' style="display:inline;" href="javascript:hide_toolbar()" class="btn pull-left"><i class="icon-minus"></i> Hide toolbar</a>
-    <a id='show_toolbar_btn' style="display:inline;" href="javascript:show_toolbar()" class="btn pull-left"><i class="icon-plus"></i> Show toolbar</a>      
-  </div>
+
   <div class="span6">
     <a id='select_all_btn' style="display:inline;" href="javascript:select_all_problems()" class="btn pull-left"><i class="icon-check"></i> Select all</a>
     <a id='unselect_all_btn' style="display:inline;" href="javascript:unselect_all_problems()" class="btn pull-left"><i class="icon-minus"></i> Unselect all</a>
