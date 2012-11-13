@@ -155,7 +155,7 @@ $('.form_in_dropdown').on('click', function (e) {
 
 
   <!-- Start of the Right panel, with all problems -->
-  <div class="span10">
+  <div class="span12">
     <div id="accordion" class="span12">
 
       %# " We will print Business impact level of course"
